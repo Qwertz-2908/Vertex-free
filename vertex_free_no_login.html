@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertex</title>
+<link rel="icon" type="image/png" href="png.png">
+<style>
+
+
+* {
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root {
+    --accent:#62adff;
+    --accent-strong:#2684ff;
+    --accent-dark:#176ed1;
+    --accent-hover:#2684ee;
+    --accent-bg:#13223a;
+    --accent-bg-2:#122039;
+    --accent-border:#2869aa;
+    --accent-soft-border:#1c3558;
+}
+
+body {
+    font-family:Arial,Helvetica,sans-serif;
+    background:#05070d;
+    color:white;
+    min-height:100vh;
+}
+
+body[data-theme="blue"] {
+    --accent:#62adff;--accent-strong:#2684ff;--accent-dark:#176ed1;
+    --accent-hover:#2684ee;--accent-bg:#13223a;--accent-bg-2:#122039;
+    --accent-border:#2869aa;--accent-soft-border:#1c3558;
+}
+
+body[data-theme="purple"] {
+    --accent:#b47cff;--accent-strong:#8b5cf6;--accent-dark:#6d3fd1;
+    --accent-hover:#9b6cff;--accent-bg:#24183b;--accent-bg-2:#211634;
+    --accent-border:#6d4bb3;--accent-soft-border:#38225e;
+}
+
+body[data-theme="green"] {
+    --accent:#55d98b;--accent-strong:#22c55e;--accent-dark:#168a42;
+    --accent-hover:#39c975;--accent-bg:#123524;--accent-bg-2:#102d20;
+    --accent-border:#2b8f57;--accent-soft-border:#1f593a;
+}
+
+body[data-theme="red"] {
+    --accent:#ff6565;--accent-strong:#ef4444;--accent-dark:#c53030;
+    --accent-hover:#ff5757;--accent-bg:#3a1717;--accent-bg-2:#341414;
+    --accent-border:#a84444;--accent-soft-border:#612626;
+}
+
+body[data-theme="orange"] {
+    --accent:#ff9d4d;--accent-strong:#f97316;--accent-dark:#c45a0c;
+    --accent-hover:#ff8b2e;--accent-bg:#3a2415;--accent-bg-2:#342011;
+    --accent-border:#9f5d25;--accent-soft-border:#5d3518;
+}
+
+body[data-theme="pink"] {
+    --accent:#ff72b6;--accent-strong:#ec4899;--accent-dark:#c2357e;
+    --accent-hover:#f05ba3;--accent-bg:#3a1730;--accent-bg-2:#34142a;
+    --accent-border:#9f3d72;--accent-soft-border:#5d2442;
+}
+
+button,input,select {
+    font-family:inherit;
+}
+
+button {
+    cursor:pointer;
+}
+
+
+/* LOGIN */
+
+#loginScreen {
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.login-box {
+    width:100%;
+    max-width:420px;
+    background:#0c111c;
+    border:1px solid #17233a;
+    border-radius:18px;
+    padding:40px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+
+.logo {
+    font-size:38px;
+    font-weight:800;
+    color:var(--accent);
+    text-align:center;
+}
+
+.tagline {
+    text-align:center;
+    color:#8d99aa;
+    margin-top:8px;
+    margin-bottom:32px;
+}
+
+.login-box input,
+.account-card input {
+    width:100%;
+    padding:13px 15px;
+    margin-bottom:12px;
+    background:#070b13;
+    border:1px solid #1b2940;
+    border-radius:9px;
+    color:white;
+    outline:none;
+}
+
+.login-box input:focus,
+.account-card input:focus {
+    border-color:var(--accent-strong);
+}
+
+.primary-btn {
+    width:100%;
+    border:none;
+    border-radius:9px;
+    padding:13px;
+    background:var(--accent-strong);
+    color:white;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.primary-btn:hover {
+    background:var(--accent-hover);
+}
+
+.error {
+    color:#ff6b6b;
+    margin-top:14px;
+    text-align:center;
+    min-height:20px;
+}
+
+
+/* APP */
+
+#app {
+    display:none;
+    min-height:100vh;
+}
+
+.topbar {
+    height:64px;
+    background:#080c14;
+    border-bottom:1px solid #172033;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+}
+
+.top-logo {
+    color:var(--accent);
+    font-size:23px;
+    font-weight:800;
+}
+
+.user-area {
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.user-name {
+    color:#dce7f5;
+    font-size:14px;
+}
+
+.logout-btn {
+    background:#141c2b;
+    border:1px solid #26344d;
+    color:#b9c7da;
+    border-radius:8px;
+    padding:8px 12px;
+}
+
+.logout-btn:hover {
+    background:#1b2639;
+}
+
+
+/* NOTIFICATIONS */
+
+.notification-wrapper {
+    position:relative;
+}
+
+.notification-btn {
+    position:relative;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:9px;
+    background:#141c2b;
+    border:1px solid #26344d;
+    color:#dce7f5;
+    font-size:18px;
+}
+
+.notification-btn:hover {
+    background:#1b2639;
+}
+
+.notification-badge {
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    min-width:18px;
+    height:18px;
+    padding:0 5px;
+    border-radius:20px;
+    background:#ef4444;
+    color:white;
+    font-size:10px;
+    font-weight:bold;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    border:2px solid #080c14;
+}
+
+.notification-panel {
+    position:absolute;
+    right:0;
+    top:47px;
+    width:360px;
+    max-width:calc(100vw - 30px);
+    background:#0c111c;
+    border:1px solid #26344d;
+    border-radius:12px;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+    z-index:1000;
+    display:none;
+    overflow:hidden;
+}
+
+.notification-panel.open {
+    display:block;
+}
+
+.notification-header {
+    padding:14px 15px;
+    border-bottom:1px solid #172033;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.notification-header strong {
+    font-size:14px;
+}
+
+.notification-actions {
+    display:flex;
+    gap:5px;
+}
+
+.notification-action {
+    background:transparent;
+    border:none;
+    color:#718096;
+    font-size:11px;
+    padding:4px;
+}
+
+.notification-action:hover {
+    color:var(--accent);
+}
+
+.notification-list {
+    max-height:400px;
+    overflow-y:auto;
+}
+
+.notification-empty {
+    padding:30px 15px;
+    text-align:center;
+    color:#66758a;
+    font-size:13px;
+}
+
+.notification-item {
+    padding:13px 15px;
+    border-bottom:1px solid #172033;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.notification-item:hover {
+    background:#101827;
+}
+
+.notification-item.unread {
+    background:var(--accent-bg-2);
+}
+
+.notification-item-top {
+    display:flex;
+    gap:9px;
+    align-items:flex-start;
+}
+
+.notification-icon {
+    font-size:18px;
+}
+
+.notification-item-content {
+    flex:1;
+    min-width:0;
+}
+
+.notification-title {
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:3px;
+}
+
+.notification-message {
+    color:#8996a9;
+    font-size:12px;
+    line-height:1.4;
+}
+
+.notification-time {
+    color:#566479;
+    font-size:10px;
+    margin-top:5px;
+}
+
+
+/* LAYOUT */
+
+.layout {
+    display:grid;
+    grid-template-columns:210px 1fr 230px;
+    min-height:calc(100vh - 64px);
+}
+
+.sidebar {
+    background:#080c14;
+    border-right:1px solid #172033;
+    padding:18px 12px;
+}
+
+.sidebar-section {
+    margin-bottom:24px;
+}
+
+.sidebar-title {
+    color:#59687c;
+    font-size:11px;
+    font-weight:bold;
+    text-transform:uppercase;
+    padding:0 10px;
+    margin-bottom:7px;
+}
+
+.nav-btn {
+    width:100%;
+    background:transparent;
+    border:none;
+    color:#9caabe;
+    text-align:left;
+    padding:11px 12px;
+    border-radius:8px;
+    margin-bottom:3px;
+    font-size:14px;
+}
+
+.nav-btn:hover {
+    background:#101827;
+    color:white;
+}
+
+.nav-btn.active {
+    background:var(--accent-bg);
+    color:var(--accent);
+}
+
+.channel-btn {
+    width:100%;
+    background:transparent;
+    border:none;
+    color:#8d99aa;
+    text-align:left;
+    padding:9px 12px;
+    border-radius:7px;
+    margin-bottom:2px;
+    font-size:13px;
+}
+
+.channel-btn:hover {
+    background:#101827;
+    color:white;
+}
+
+.channel-btn.active {
+    background:var(--accent-bg-2);
+    color:var(--accent);
+}
+
+
+/* PAGES */
+
+.main {
+    min-width:0;
+    background:#060a11;
+    position:relative;
+}
+
+.page {
+    display:none;
+    height:100%;
+}
+
+.page.active {
+    display:block;
+}
+
+.revision-page,
+.account-page,
+.admin-page,
+.competition-page {
+    padding:30px;
+}
+
+.page-heading {
+    font-size:28px;
+    margin-bottom:6px;
+}
+
+.page-subheading {
+    color:#77859a;
+    margin-bottom:25px;
+}
+
+
+/* FEATURED */
+
+.featured-section {
+    background:linear-gradient(135deg,#101c31,#0c111c);
+    border:1px solid var(--accent-soft-border);
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.featured-content {
+    min-width:0;
+}
+
+.featured-label {
+    color:var(--accent);
+    font-size:11px;
+    font-weight:bold;
+    text-transform:uppercase;
+    margin-bottom:7px;
+}
+
+.featured-title {
+    font-size:20px;
+    margin-bottom:6px;
+}
+
+.featured-description {
+    color:#77859a;
+    font-size:13px;
+    line-height:1.4;
+}
+
+.catalogue-btn {
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    background:var(--accent-dark);
+    color:white;
+    padding:11px 16px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:13px;
+    transition:.15s;
+}
+
+.catalogue-btn:hover {
+    background:var(--accent-hover);
+    transform:translateY(-1px);
+}
+
+.search-box {
+    width:100%;
+    max-width:600px;
+    padding:13px 15px;
+    background:#0c111c;
+    border:1px solid #1b2940;
+    border-radius:10px;
+    color:white;
+    outline:none;
+    margin-bottom:15px;
+}
+
+.search-box:focus {
+    border-color:var(--accent-strong);
+}
+
+.categories {
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.category-btn {
+    border:1px solid #1d2c43;
+    background:#0b111b;
+    color:#92a0b3;
+    border-radius:20px;
+    padding:8px 13px;
+}
+
+.category-btn:hover,
+.category-btn.active {
+    background:var(--accent-bg);
+    border-color:var(--accent-border);
+    color:white;
+}
+
+.revision-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:15px;
+}
+
+.revision-card {
+    background:#0c111c;
+    border:1px solid #17243a;
+    border-radius:13px;
+    padding:18px;
+    transition:.15s;
+}
+
+.revision-card:hover {
+    transform:translateY(-3px);
+    border-color:var(--accent-border);
+}
+
+.revision-icon {
+    width:55px;
+    height:55px;
+    background:var(--accent-bg-2);
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    margin-bottom:14px;
+}
+
+.revision-card h3 {
+    font-size:16px;
+    margin-bottom:6px;
+}
+
+.revision-card p {
+    color:#748197;
+    font-size:12px;
+    margin-bottom:14px;
+}
+
+.play-btn,
+.send-btn,
+.account-card button,
+.admin-save {
+    border:none;
+    background:var(--accent-dark);
+    color:white;
+    font-weight:bold;
+}
+
+.play-btn {
+    width:100%;
+    padding:9px;
+    border-radius:8px;
+}
+
+.play-btn:hover,
+.send-btn:hover,
+.account-card button:hover,
+.admin-save:hover {
+    background:var(--accent-hover);
+}
+
+
+/* CHAT */
+
+.chat-page {
+    height:100%;
+    display:none;
+    flex-direction:column;
+}
+
+.chat-page.active {
+    display:flex;
+}
+
+.chat-header {
+    height:65px;
+    border-bottom:1px solid #172033;
+    display:flex;
+    align-items:center;
+    padding:0 22px;
+}
+
+.chat-header-title {
+    font-weight:bold;
+}
+
+.chat-header-subtitle {
+    color:#66758a;
+    font-size:12px;
+    margin-left:10px;
+}
+
+.chat-messages {
+    flex:1;
+    overflow-y:auto;
+    padding:22px;
+}
+
+.message {
+    margin-bottom:18px;
+}
+
+.message-top {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:4px;
+}
+
+.message-author {
+    font-weight:bold;
+    color:var(--accent);
+}
+
+.message-time {
+    color:#566479;
+    font-size:10px;
+}
+
+.message-content {
+    color:#d4dbe6;
+    line-height:1.45;
+    word-break:break-word;
+}
+
+.delete-message {
+    border:none;
+    background:transparent;
+    color:#59677b;
+    font-size:11px;
+    margin-left:8px;
+}
+
+.delete-message:hover {
+    color:#ff6565;
+}
+
+.typing {
+    height:24px;
+    padding:0 22px;
+    color:#6e7d92;
+    font-size:12px;
+}
+
+.typing-dots span {
+    animation:blink 1.4s infinite;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay:.2s;
+}
+
+.typing-dots span:nth-child(3) {
+    animation-delay:.4s;
+}
+
+@keyframes blink {
+    0%,60%,100% {opacity:.25;}
+    30% {opacity:1;}
+}
+
+.chat-input-area {
+    padding:15px 22px;
+    border-top:1px solid #172033;
+    display:flex;
+    gap:10px;
+}
+
+.chat-input {
+    flex:1;
+    padding:12px 14px;
+    background:#0c111c;
+    border:1px solid #1b2940;
+    border-radius:9px;
+    color:white;
+    outline:none;
+}
+
+.chat-input:focus {
+    border-color:var(--accent-strong);
+}
+
+.send-btn {
+    border-radius:9px;
+    padding:0 18px;
+}
+
+.send-btn:disabled {
+    opacity:.5;
+    cursor:default;
+}
+
+.announcement-warning {
+    background:#251d08;
+    border:1px solid #604b14;
+    color:#d9c98c;
+    padding:10px 15px;
+    font-size:12px;
+}
+
+
+/* DMs */
+
+.dm-page {
+    height:100%;
+    min-height:calc(100vh - 64px);
+    display:none;
+}
+
+.dm-page.active {
+    display:flex;
+}
+
+.dm-sidebar {
+    width:250px;
+    flex-shrink:0;
+    border-right:1px solid #172033;
+    background:#080c14;
+    display:flex;
+    flex-direction:column;
+}
+
+.dm-sidebar-header {
+    padding:20px 16px 14px;
+    border-bottom:1px solid #172033;
+}
+
+.dm-sidebar-title {
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.dm-search {
+    width:100%;
+    padding:10px 12px;
+    background:#0c111c;
+    border:1px solid #1b2940;
+    border-radius:8px;
+    color:white;
+    outline:none;
+    font-size:13px;
+}
+
+.dm-search:focus {
+    border-color:var(--accent-strong);
+}
+
+.dm-list {
+    flex:1;
+    overflow-y:auto;
+    padding:8px;
+}
+
+.dm-list-label {
+    color:#59687c;
+    font-size:10px;
+    font-weight:bold;
+    text-transform:uppercase;
+    padding:9px 8px 6px;
+}
+
+.dm-user {
+    width:100%;
+    border:none;
+    background:transparent;
+    color:#cbd5e3;
+    text-align:left;
+    padding:10px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:2px;
+}
+
+.dm-user:hover {
+    background:#101827;
+}
+
+.dm-user.active {
+    background:var(--accent-bg);
+    color:var(--accent);
+}
+
+.dm-avatar {
+    width:34px;
+    height:34px;
+    flex-shrink:0;
+    border-radius:50%;
+    background:var(--accent-bg-2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    font-weight:bold;
+    color:var(--accent);
+}
+
+.dm-user-info {
+    min-width:0;
+    flex:1;
+}
+
+.dm-user-name {
+    font-size:13px;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.dm-user-preview {
+    color:#66758a;
+    font-size:10px;
+    margin-top:3px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.dm-empty {
+    color:#66758a;
+    font-size:12px;
+    text-align:center;
+    padding:25px 12px;
+}
+
+.dm-main {
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+}
+
+.dm-header {
+    height:65px;
+    flex-shrink:0;
+    border-bottom:1px solid #172033;
+    display:flex;
+    align-items:center;
+    padding:0 22px;
+    gap:10px;
+}
+
+.dm-header-avatar {
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:var(--accent-bg-2);
+    color:var(--accent);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.dm-header-info {
+    min-width:0;
+}
+
+.dm-header-name {
+    font-weight:bold;
+}
+
+.dm-header-status {
+    color:#66758a;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.dm-messages {
+    flex:1;
+    overflow-y:auto;
+    padding:22px;
+}
+
+.dm-message {
+    display:flex;
+    margin-bottom:13px;
+}
+
+.dm-message.mine {
+    justify-content:flex-end;
+}
+
+.dm-bubble {
+    max-width:70%;
+    padding:10px 13px;
+    border-radius:12px;
+    background:#101827;
+    border:1px solid #17243a;
+}
+
+.dm-message.mine .dm-bubble {
+    background:var(--accent-bg);
+    border-color:var(--accent-border);
+}
+
+.dm-bubble-text {
+    color:#dce4ef;
+    font-size:13px;
+    line-height:1.45;
+    word-break:break-word;
+}
+
+.dm-bubble-time {
+    color:#65748a;
+    font-size:9px;
+    margin-top:5px;
+}
+
+.dm-message.mine .dm-bubble-time {
+    color:#8eb9e9;
+}
+
+.dm-input-area {
+    padding:15px 22px;
+    border-top:1px solid #172033;
+    display:flex;
+    gap:10px;
+}
+
+.dm-input {
+    flex:1;
+    padding:12px 14px;
+    background:#0c111c;
+    border:1px solid #1b2940;
+    border-radius:9px;
+    color:white;
+    outline:none;
+}
+
+.dm-input:focus {
+    border-color:var(--accent-strong);
+}
+
+.dm-send {
+    border:none;
+    border-radius:9px;
+    padding:0 18px;
+    background:var(--accent-dark);
+    color:white;
+    font-weight:bold;
+}
+
+.dm-send:hover {
+    background:var(--accent-hover);
+}
+
+.dm-send:disabled {
+    opacity:.5;
+    cursor:default;
+}
+
+.dm-placeholder {
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    color:#66758a;
+    text-align:center;
+    padding:30px;
+}
+
+.dm-placeholder-icon {
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+.dm-placeholder strong {
+    color:#9caabe;
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+.dm-placeholder span {
+    font-size:12px;
+}
+
+
+/* ONLINE */
+
+.online-sidebar {
+    background:#080c14;
+    border-left:1px solid #172033;
+    padding:20px 14px;
+}
+
+.online-title {
+    color:#69778b;
+    text-transform:uppercase;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:14px;
+}
+
+.online-count {
+    color:var(--accent);
+}
+
+.online-user {
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:8px;
+    border-radius:7px;
+    margin-bottom:4px;
+}
+
+.online-user:hover {
+    background:#101827;
+}
+
+.online-dot {
+    width:8px;
+    height:8px;
+    background:#32d583;
+    border-radius:50%;
+    box-shadow:0 0 7px rgba(50,213,131,.6);
+}
+
+.online-user-name {
+    font-size:13px;
+    color:#cbd5e3;
+}
+
+.online-role {
+    color:#66758a;
+    font-size:10px;
+    margin-left:auto;
+}
+
+
+/* ACCOUNT */
+
+.account-card {
+    background:#0c111c;
+    border:1px solid #17243a;
+    border-radius:13px;
+    padding:22px;
+    margin-top:20px;
+}
+
+.account-card h3 {
+    margin-bottom:15px;
+}
+
+.account-label {
+    color:#738197;
+    font-size:12px;
+    margin-bottom:6px;
+    display:block;
+}
+
+.account-card button {
+    padding:10px 15px;
+    border-radius:8px;
+}
+
+.account-message {
+    color:#5ed895;
+    font-size:12px;
+    margin-top:10px;
+}
+
+.profile-row {
+    padding:13px 0;
+    border-bottom:1px solid #172033;
+}
+
+.profile-row:last-child {
+    border-bottom:none;
+}
+
+.profile-value {
+    color:#dce7f5;
+    font-size:14px;
+}
+
+.stats-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:12px;
+}
+
+.stat-box {
+    background:#080d15;
+    border:1px solid #17243a;
+    border-radius:10px;
+    padding:18px;
+}
+
+.stat-box strong {
+    display:block;
+    font-size:24px;
+    color:var(--accent);
+    margin-bottom:5px;
+}
+
+.stat-box span {
+    color:#748197;
+    font-size:12px;
+}
+
+
+/* THEMES */
+
+.theme-options {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:10px;
+}
+
+.theme-btn {
+    width:auto!important;
+    background:#080d15!important;
+    border:1px solid #26354c!important;
+    color:#cbd5e3!important;
+    padding:10px 14px!important;
+    border-radius:8px!important;
+    transition:.15s;
+}
+
+.theme-btn:hover {
+    border-color:var(--accent)!important;
+    transform:translateY(-1px);
+}
+
+.theme-btn.active {
+    border-color:var(--accent)!important;
+    background:var(--accent-bg)!important;
+    color:var(--accent)!important;
+}
+
+
+/* COMPETITION */
+
+.competition-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.competition-card {
+    background:#0c111c;
+    border:1px solid #17243a;
+    border-radius:13px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.competition-revision-icon {
+    width:55px;
+    height:55px;
+    border-radius:12px;
+    background:var(--accent-bg-2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+}
+
+.competition-card h3 {
+    margin-bottom:5px;
+}
+
+.competition-card p,
+.leaderboard-header p {
+    color:#748197;
+    font-size:12px;
+}
+
+.leaderboard-section {
+    background:#0c111c;
+    border:1px solid #17243a;
+    border-radius:13px;
+    overflow:hidden;
+}
+
+.leaderboard-header {
+    padding:20px;
+    border-bottom:1px solid #172033;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.leaderboard-header h2 {
+    margin-bottom:5px;
+}
+
+.leaderboard-select {
+    background:#080d15;
+    border:1px solid #26354c;
+    color:white;
+    border-radius:8px;
+    padding:9px 12px;
+}
+
+.leaderboard {
+    padding:8px;
+}
+
+.leaderboard-row {
+    display:grid;
+    grid-template-columns:50px 1fr 130px;
+    align-items:center;
+    padding:14px;
+    border-radius:8px;
+}
+
+.leaderboard-row:hover {
+    background:#101827;
+}
+
+.leaderboard-position {
+    font-size:18px;
+    font-weight:bold;
+}
+
+.leaderboard-name {
+    font-weight:bold;
+}
+
+.leaderboard-time {
+    text-align:right;
+    color:var(--accent);
+    font-size:13px;
+}
+
+
+/* ADMIN */
+
+.admin-warning {
+    background:#15100a;
+    border:1px solid #4c3913;
+    padding:13px;
+    border-radius:10px;
+    color:#d4bf7e;
+    margin-bottom:20px;
+}
+
+.users-table {
+    width:100%;
+    border-collapse:collapse;
+    background:#0c111c;
+    border:1px solid #17243a;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.users-table th,
+.users-table td {
+    text-align:left;
+    padding:14px;
+    border-bottom:1px solid #172033;
+}
+
+.users-table th {
+    color:#68778c;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.users-table td {
+    font-size:13px;
+    color:#d3dbe7;
+}
+
+.role-badge {
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.role-owner {
+    background:#3b2a09;
+    color:#ffd76a;
+}
+
+.role-admin {
+    background:#112e4c;
+    color:#66b5ff;
+}
+
+.role-member {
+    background:#18202d;
+    color:#9ba8ba;
+}
+
+.role-select {
+    background:#080d15;
+    border:1px solid #26354c;
+    color:white;
+    border-radius:6px;
+    padding:6px;
+}
+
+.admin-save {
+    border-radius:6px;
+    padding:6px 10px;
+    margin-left:5px;
+}
+
+
+/* MOBILE */
+
+@media(max-width:900px) {
+
+    .layout {
+        grid-template-columns:170px 1fr;
+    }
+
+    .online-sidebar {
+        display:none;
+    }
+
+    .dm-sidebar {
+        width:210px;
+    }
+
+}
+
+@media(max-width:650px) {
+
+    .layout {
+        grid-template-columns:1fr;
+    }
+
+    .sidebar {
+        display:none;
+    }
+
+    .revision-page,
+    .account-page,
+    .admin-page,
+    .competition-page {
+        padding:20px;
+    }
+
+    .featured-section {
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .catalogue-btn {
+        width:100%;
+    }
+
+    .leaderboard-header {
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .leaderboard-select {
+        width:100%;
+    }
+
+    .topbar {
+        padding:0 12px;
+    }
+
+    .user-name {
+        display:none;
+    }
+
+    .notification-panel {
+        position:fixed;
+        top:70px;
+        right:15px;
+        left:15px;
+        width:auto;
+        max-width:none;
+    }
+
+    .dm-page {
+        min-height:calc(100vh - 64px);
+    }
+
+    .dm-sidebar {
+        width:100%;
+        display:flex;
+    }
+
+    .dm-main {
+        display:none;
+    }
+
+    .dm-page.conversation-open .dm-sidebar {
+        display:none;
+    }
+
+    .dm-page.conversation-open .dm-main {
+        display:flex;
+    }
+
+    .dm-header {
+        padding:0 15px;
+    }
+
+    .dm-messages {
+        padding:15px;
+    }
+
+    .dm-input-area {
+        padding:12px;
+    }
+
+    .dm-bubble {
+        max-width:85%;
+    }
+
+}
+
+
+#app { display:block; min-height:100vh; }
+.layout { grid-template-columns:210px minmax(0,1fr); }
+.sidebar { display:block; }
+.main { min-height:calc(100vh - 64px); }
+.revision-page { padding:30px; }
+@media(max-width:650px) {
+  .layout { grid-template-columns:1fr; }
+  .sidebar { display:block; border-right:0; border-bottom:1px solid #172033; padding:10px; }
+  .sidebar-section { margin:0; }
+  .sidebar-title { display:none; }
+  .nav-btn { width:auto; display:inline-block; margin:2px; }
+  .revision-page { padding:20px; }
+}
+</style>
+</head>
+<body data-theme="blue">
+<div id="app">
+  <header class="topbar"><div class="top-logo">Vertex</div><div class="user-area"><span class="user-name">Free revision</span></div></header>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Navigation</div>
+        <button class="nav-btn active" type="button">🎮 Revision</button>
+      </div>
+    </aside>
+    <main class="main">
+      <section class="page active revision-page">
+        <h1 class="page-heading">Revision</h1>
+        <p class="page-subheading">Take a break between revision sessions.</p>
+        <div class="featured-section">
+          <div class="featured-content">
+            <div class="featured-label">⭐ Featured</div>
+            <div class="featured-title">Revision Catalogue</div>
+            <div class="featured-description">Browse the full catalogue of revision and discover even more to play.</div>
+          </div>
+          <a class="catalogue-btn" href="https://script.google.com/a/macros/imberhorne.co.uk/s/AKfycbx4iyhrT6p_t5Fx1-eJlpZAPHx1EVLGBcUuPQBD3H7SfWBTxQNn4kju9ogKK6XDPyI1Iw/exec" target="_blank" rel="noopener noreferrer">Open Catalogue ↗</a>
+        </div>
+        <input id="revisionearch" class="search-box" type="text" placeholder="Search revision..." autocomplete="off">
+        <div class="categories">
+          <button class="category-btn active" data-category="all" type="button">All</button>
+          <button class="category-btn" data-category="action" type="button">Action</button>
+          <button class="category-btn" data-category="puzzle" type="button">Puzzle</button>
+          <button class="category-btn" data-category="strategy" type="button">Strategy</button>
+          <button class="category-btn" data-category="other" type="button">Other</button>
+        </div>
+        <div id="revisionGrid" class="revision-grid"></div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const revision = [
+
+    {
+        name:"Echo",
+        icon:"👥",
+        description:"use clones of yourself to solve the puzzles",
+        category:"strategy",
+        url:"https://echovertexrevision.vercel.app/"
+    },
+
+{
+        name:"Hotel manager",
+        icon:"🛎️",
+        description:"hotel manager tycoon",
+        category:"other",
+        url:"https://hotel-learninghub.vercel.app/"
+    },
+    
+ {
+        name:"Geometry Dash",
+        icon:"🟨",
+        description:"Jump, fly and survive the levels.",
+        category:"action",
+        url:"https://here-pookies.vercel.app/home/apps/gd2/"
+    },
+
+ {
+        name:"Amoong us",
+        icon:"🧐",
+        description:"find the imposter",
+        category:"strategy",
+        url:"https://vertexsusrevision.base44.app"
+    },
+
+    
+    {
+        name:"Rider",
+        icon:"🏍️",
+        description:"A bit glitchy but should work",
+        category:"other",
+        url:"https://rider-revision.vercel.app/"
+    },
+
+    {
+        name:"Chess",
+        icon:"♟️",
+        description:"Play chess against a friend.",
+        category:"strategy",
+        url:"https://vanillajschess.github.io/"
+    },
+
+    {
+        name:"Guess Where You Are",
+        icon:"🌍",
+        description:"Test your geography knowledge.",
+        category:"puzzle",
+        url:"https://guesswhereyouare.com/?_r=1781698487747#/4"
+    },
+
+{
+        name:"Protect the president",
+        icon:"🤵",
+        description:"block the bullents to save the president",
+        category:"action",
+        url:"https://protectdaprez.base44.app"
+    },
+
+    
+    {
+        name:"Crazy Cattle 3D",
+        icon:"🐄",
+        description:"A chaotic 3D cow revision.",
+        category:"action",
+        url:"https://crazy-chicken-3d.vercel.app/"
+    },
+
+    {
+        name:"FNAF 1",
+        icon:"🐻",
+        description:"Survive the night.",
+        category:"other",
+        url:"https://irv77.github.io/hd_fnaf/1/"
+    },
+
+    {
+        name:"Polytrack",
+        icon:"🏎️",
+        description:"Race through crazy tracks.",
+        category:"action",
+        url:"https://stuffed18.github.io/polytrack-0.4.1/"
+    },
+
+    {
+        name:"Dino 3D",
+        icon:"🦖",
+        description:"Run through the 3D world.",
+        category:"other",
+        url:"https://outred.github.io/dino3d/"
+    },
+
+    {
+        name:"MC - good version",
+        icon:"⛏️",
+        description:"click this and it should make you download a file... run the file and you get the revision resource",
+        category:"strategy",
+        url:"https://here-pookies.vercel.app/home/apps/mc/"
+    },
+
+  {
+        name:"Dodgy GTA",
+        icon:"🔫",
+        description:"little it rubbish but ah well ",
+        category:"action",
+        url:"https://vertexflashcards.vercel.app/"
+    },
+    
+    {
+        name:"Football manager",
+        icon:"ᯓ⚽️",
+        description:"made by me so may be a bit rusty",
+        category:"strategy",
+        url:"https://manager-sim-vertex.vercel.app/"
+    },
+
+    {
+        name:"Fortnite",
+        icon:"🚌",
+        description:"Jump into battle.",
+        category:"action",
+        url:"https://here-pookies.vercel.app/home/apps/fortnite/"
+    },
+
+    {
+        name:"July 4th Google revision",
+        icon:"🎆",
+        description:"Classic Google mini revision.",
+        category:"other",
+        url:"https://www.google.com/logos/2019/july4th19/r6/july4th19.html?hl=en"
+    },
+
+    {
+        name:"time shooter",
+        icon:"⛹🏿‍♀️",
+        description:"remake of time shooter",
+        category:"action",
+        url:"https://timeshootervertex.base44.app"
+    },
+
+    
+    {
+        name:"Arena",
+        icon:"⚔️",
+        description:"Enter the arena.",
+        category:"action",
+        url:"https://here-pookies.vercel.app/home/apps/arena/"
+    },
+
+{
+        name:"Neon leap",
+        icon:"❇️",
+        description:"Rubbish placeholder for when new apps come out",
+        category:"action",
+        url:"https://neonvertexflashcards.base44.app"
+    }
+    
+];
+
+
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+}
+function renderrevision() {
+  const grid = document.getElementById("revisionGrid");
+  const search = document.getElementById("revisionearch").value.trim().toLowerCase();
+  const category = document.querySelector(".category-btn.active")?.dataset.category || "all";
+  grid.innerHTML = "";
+  const matches = revision.filter(item =>
+    item.name.toLowerCase().includes(search) &&
+    (category === "all" || item.category === category)
+  );
+  if (!matches.length) {
+    grid.innerHTML = '<p style="color:#748197;padding:10px">No revision found. Try another search.</p>';
+    return;
+  }
+  matches.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "revision-card";
+    card.innerHTML = `<div class="revision-icon">${escapeHTML(item.icon)}</div>
+      <h3>${escapeHTML(item.name)}</h3>
+      <p>${escapeHTML(item.description)}</p>
+      <button class="play-btn" type="button">Play</button>`;
+    card.querySelector(".play-btn").addEventListener("click", () => {
+      window.open(item.url, "_blank", "noopener,noreferrer");
+    });
+    grid.appendChild(card);
+  });
+}
+document.getElementById("revisionearch").addEventListener("input", renderrevision);
+document.querySelectorAll(".category-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".category-btn").forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+    renderrevision();
+  });
+});
+renderrevision();
+</script>
+</body>
+</html>
